@@ -10,6 +10,32 @@ namespace SnakeLibrary
     {
         public int X { get; set; }
         public int Y { get; set; }
-        public CellState State { get; set; }
+
+        public Cell()
+        {
+
+        }
+
+        public Cell(Cell cell)
+        {
+            X = cell.X;
+            Y = cell.Y;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var cell = obj as Cell;
+            if(cell != null)
+            {
+                return cell.X == X && cell.Y == Y;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

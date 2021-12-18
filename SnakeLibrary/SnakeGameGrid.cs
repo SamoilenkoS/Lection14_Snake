@@ -8,27 +8,31 @@ namespace SnakeLibrary
 {
     public class SnakeGameGrid : GameGrid
     {
-        public const int MinimalSize = 3;
+        private Random random;
+
+        public const int MinimalSize = 5;
+
+        public delegate void Notify();
+        public event Notify SnakeIsDead;
+
+        public Cell Apple { get; private set; }
         public Snake Snake { get; private set; }
 
-        private SnakeGameGrid(int size) : base(size)
+        private SnakeGameGrid(int size, Notify snakeIsDead) : base(size)
         {
             Snake = new Snake();
-            var head = Snake.BodyCells.First;
-            while(head != null)
-            {
-                Cell snakePart = head.Value;
-                Cells[snakePart.X, snakePart.Y].State =
-                    snakePart.State;
-                head = head.Next;
-            }
+            SnakeIsDead += snakeIsDead;
+            random = new Random();
+            CreateApple();
         }
 
-        public static SnakeGameGrid Initialize(int size)
+        public static SnakeGameGrid Initialize(
+            int size,
+            Notify snakeIsDead)
         {
             if (size >= MinimalSize)
             {
-                return new SnakeGameGrid(size);
+                return new SnakeGameGrid(size, snakeIsDead);
             }
 
             throw new ArgumentException("Size should be greater than zero!");
@@ -36,15 +40,37 @@ namespace SnakeLibrary
 
         public void Move()
         {
-            Snake.Move();
-            var head = Snake.BodyCells.First;
-            while (head != null)
+            if (!Snake.IsAlive(FieldSize))
             {
-                Cell snakePart = head.Value;
-                Cells[snakePart.X, snakePart.Y].State =
-                    snakePart.State;
-                head = head.Next;
+                SnakeIsDead?.Invoke();
+                return;
             }
+
+            if (Snake.GetNextHeadPosition().Equals(Apple))
+            {
+                Snake.EatApple(Apple);
+                CreateApple();
+            }
+            else
+            {
+                Snake.Move();
+            }
+        }
+
+        private void CreateApple()
+        {
+            Cell appleCell;
+            do
+            {
+                appleCell = new Cell
+                {
+                    X = random.Next(0, FieldSize),
+                    Y = random.Next(0, FieldSize)
+                };
+            } while (Snake.BodyCells
+                .Any(x => x.Equals(appleCell)));
+
+            Apple = appleCell;
         }
     }
 }

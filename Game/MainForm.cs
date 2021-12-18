@@ -13,58 +13,54 @@ namespace Game
 {
     public partial class MainForm : Form
     {
-        SnakeGameGrid snakeGameGrid
-            = SnakeGameGrid.Initialize(10);
-        private Color color = Color.Black;
+        SnakeGameGrid snakeGameGrid;
 
         public MainForm()
         {
             InitializeComponent();
+            snakeGameGrid = SnakeGameGrid.Initialize(10, SnakeIsDead);
         }
 
-        private void numericUpDownEndY_ValueChanged(object sender, EventArgs e)
+        private void SnakeIsDead()
         {
+            MessageBox.Show("Snake is dead!");
+            //TODO add restart!
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            snakeGameGrid.Move();
             Refresh();
         }
 
-        bool _clicked = false;
-
-        private void MainForm_MouseMove(
-            object sender, MouseEventArgs e)
+        private void buttonChangeDirection_Click(object sender, EventArgs e)
         {
-            if (_clicked)
+            MoveDirection moveDirection;
+            switch (comboBoxDirections.SelectedItem)
             {
-                Brush pen = new SolidBrush(color);
-                Control control = sender as Control;
-                var graphics = control.CreateGraphics();
-                graphics.FillRectangle(
-                    pen,
-                    e.X,
-                    e.Y,
-                    trackBarWidth.Value,
-                    trackBarWidth.Value);
+                case "Up":
+                    moveDirection = MoveDirection.Up;
+                    break;
+                case "Down":
+                    moveDirection = MoveDirection.Down;
+                    break;
+                case "Left":
+                    moveDirection = MoveDirection.Left;
+                    break;
+                default:
+                    moveDirection = MoveDirection.Right;
+                    break;
             }
+
+            snakeGameGrid.Snake.ChangeDirection(moveDirection);
         }
 
-        private void MainForm_MouseDown(object sender, MouseEventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            _clicked = true;
+            comboBoxDirections.SelectedIndex = 3;
         }
 
-        private void MainForm_MouseUp(object sender, MouseEventArgs e)
-        {
-            _clicked = false;
-        }
-
-        private void buttonChooseColor_Click(object sender, EventArgs e)
-        {
-            if(colorDialog1.ShowDialog() == DialogResult.OK)
-            {
-                color = colorDialog1.Color;
-            }
-        }
-
-        private void MainForm_Paint(object sender, PaintEventArgs e)
+        private void pictureBoxSnakePictureBox_Paint(object sender, PaintEventArgs e)
         {
             var graphics = e.Graphics;
             int size = 10;
@@ -73,36 +69,35 @@ namespace Game
             int height = (sender as Control).Height;
             int elHeight = height / size;
             int elWidth = width / size;
-            for (int j = 0; j < size; j++)
+            for (int j = 0; j <= size; j++)
             {
                 graphics.DrawLine(
                     Pens.Black,
                     0,
                     j * elHeight,
-                    width,
+                    elWidth * size,
                     j * elHeight);
                 graphics.DrawLine(
                     Pens.Black,
                     j * elWidth,
                     0,
                     j * elWidth,
-                    height);
+                    elHeight * size);
             }
             var snakePart = snakeGameGrid.Snake.BodyCells.First;
-            while(snakePart != null)
+            while (snakePart != null)
             {
-                graphics.FillRectangle(Brushes.Red,
+                graphics.FillRectangle(Brushes.Green,
                     snakePart.Value.X * elWidth,
                     snakePart.Value.Y * elHeight,
                     elWidth, elHeight);
                 snakePart = snakePart.Next;
             }
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            snakeGameGrid.Move();
-            Refresh();
+            graphics.FillRectangle(Brushes.Red,
+                snakeGameGrid.Apple.X * elWidth,
+                snakeGameGrid.Apple.Y * elHeight,
+                elWidth, elHeight);
         }
     }
 }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace SnakeLibrary
 {
-    public enum CellState
+    public class GridCell : Cell
     {
-        Free,
-        Wall,
-        Apple
+        public CellState State { get; set; }
     }
 }
