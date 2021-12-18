@@ -3,6 +3,7 @@
     public class GameGrid
     {
         public readonly GridCell[,] Cells;
+
         public int FieldSize => Cells.GetLength(0);
 
         protected GameGrid(int size)

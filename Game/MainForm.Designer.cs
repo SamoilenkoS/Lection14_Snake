@@ -29,46 +29,12 @@ namespace Game
         /// </summary>
         private void InitializeComponent()
         {
-            this.buttonMove = new System.Windows.Forms.Button();
-            this.comboBoxDirections = new System.Windows.Forms.ComboBox();
-            this.buttonChangeDirection = new System.Windows.Forms.Button();
+            this.components = new System.ComponentModel.Container();
             this.pictureBoxSnakePictureBox = new System.Windows.Forms.PictureBox();
+            this.timerSnakeMove = new System.Windows.Forms.Timer(this.components);
+            this.labelScore = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSnakePictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // buttonMove
-            // 
-            this.buttonMove.Location = new System.Drawing.Point(688, 12);
-            this.buttonMove.Name = "buttonMove";
-            this.buttonMove.Size = new System.Drawing.Size(100, 41);
-            this.buttonMove.TabIndex = 2;
-            this.buttonMove.Text = "Move";
-            this.buttonMove.UseVisualStyleBackColor = true;
-            this.buttonMove.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // comboBoxDirections
-            // 
-            this.comboBoxDirections.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxDirections.FormattingEnabled = true;
-            this.comboBoxDirections.Items.AddRange(new object[] {
-            "Up",
-            "Down",
-            "Left",
-            "Right"});
-            this.comboBoxDirections.Location = new System.Drawing.Point(598, 59);
-            this.comboBoxDirections.Name = "comboBoxDirections";
-            this.comboBoxDirections.Size = new System.Drawing.Size(84, 24);
-            this.comboBoxDirections.TabIndex = 3;
-            // 
-            // buttonChangeDirection
-            // 
-            this.buttonChangeDirection.Location = new System.Drawing.Point(688, 59);
-            this.buttonChangeDirection.Name = "buttonChangeDirection";
-            this.buttonChangeDirection.Size = new System.Drawing.Size(100, 44);
-            this.buttonChangeDirection.TabIndex = 4;
-            this.buttonChangeDirection.Text = "Change direction";
-            this.buttonChangeDirection.UseVisualStyleBackColor = true;
-            this.buttonChangeDirection.Click += new System.EventHandler(this.buttonChangeDirection_Click);
             // 
             // pictureBoxSnakePictureBox
             // 
@@ -77,30 +43,43 @@ namespace Game
             this.pictureBoxSnakePictureBox.Size = new System.Drawing.Size(551, 426);
             this.pictureBoxSnakePictureBox.TabIndex = 5;
             this.pictureBoxSnakePictureBox.TabStop = false;
-            this.pictureBoxSnakePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxSnakePictureBox_Paint);
+            this.pictureBoxSnakePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBoxSnakePictureBox_Paint);
+            // 
+            // timerSnakeMove
+            // 
+            this.timerSnakeMove.Tick += new System.EventHandler(this.TimerSnakeMove_Tick);
+            // 
+            // labelScore
+            // 
+            this.labelScore.AutoSize = true;
+            this.labelScore.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelScore.Location = new System.Drawing.Point(582, 12);
+            this.labelScore.Name = "labelScore";
+            this.labelScore.Size = new System.Drawing.Size(102, 29);
+            this.labelScore.TabIndex = 6;
+            this.labelScore.Text = "Score: 0";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(694, 450);
+            this.Controls.Add(this.labelScore);
             this.Controls.Add(this.pictureBoxSnakePictureBox);
-            this.Controls.Add(this.buttonChangeDirection);
-            this.Controls.Add(this.comboBoxDirections);
-            this.Controls.Add(this.buttonMove);
             this.Name = "MainForm";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.MainForm_Load);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Snake v.0.0.1";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSnakePictureBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Button buttonMove;
-        private System.Windows.Forms.ComboBox comboBoxDirections;
-        private System.Windows.Forms.Button buttonChangeDirection;
         private System.Windows.Forms.PictureBox pictureBoxSnakePictureBox;
+        private System.Windows.Forms.Timer timerSnakeMove;
+        private System.Windows.Forms.Label labelScore;
     }
 }
 

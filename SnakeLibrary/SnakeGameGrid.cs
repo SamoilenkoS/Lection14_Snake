@@ -1,28 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SnakeLibrary
 {
     public class SnakeGameGrid : GameGrid
     {
-        private Random random;
+        private Random _random;
+        private Snake _snake;
 
-        public const int MinimalSize = 5;
+        public const int MinimalSize = 3;
 
         public delegate void Notify();
+        public delegate void NotifyScore(int score);
+
         public event Notify SnakeIsDead;
+        public event NotifyScore ScoreChanged;
 
         public Cell Apple { get; private set; }
-        public Snake Snake { get; private set; }
+        public Cell[] SnakeCells => _snake.BodyCells.ToArray();
+        public int Score => _snake.BodyCells.Count - MinimalSize;
 
         private SnakeGameGrid(int size, Notify snakeIsDead) : base(size)
         {
-            Snake = new Snake();
+            _snake = new Snake();
             SnakeIsDead += snakeIsDead;
-            random = new Random();
+            _random = new Random();
             CreateApple();
         }
 
@@ -40,21 +42,34 @@ namespace SnakeLibrary
 
         public void Move()
         {
-            if (!Snake.IsAlive(FieldSize))
+            if (!_snake.IsAlive(FieldSize))
             {
                 SnakeIsDead?.Invoke();
                 return;
             }
 
-            if (Snake.GetNextHeadPosition().Equals(Apple))
+            if (_snake.GetNextHeadPosition().Equals(Apple))
             {
-                Snake.EatApple(Apple);
+                _snake.EatApple(Apple);
                 CreateApple();
+                ScoreChanged?.Invoke(Score);
             }
             else
             {
-                Snake.Move();
+                _snake.Move();
             }
+        }
+
+        public void Restart()
+        {
+            _snake = new Snake();
+            ScoreChanged?.Invoke(Score);
+            CreateApple();
+        }
+
+        public void ChangeDirection(MoveDirection moveDirection)
+        {
+            _snake.ChangeDirection(moveDirection);
         }
 
         private void CreateApple()
@@ -64,10 +79,10 @@ namespace SnakeLibrary
             {
                 appleCell = new Cell
                 {
-                    X = random.Next(0, FieldSize),
-                    Y = random.Next(0, FieldSize)
+                    X = _random.Next(0, FieldSize),
+                    Y = _random.Next(0, FieldSize)
                 };
-            } while (Snake.BodyCells
+            } while (_snake.BodyCells
                 .Any(x => x.Equals(appleCell)));
 
             Apple = appleCell;

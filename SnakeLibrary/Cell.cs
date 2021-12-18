@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SnakeLibrary
+﻿namespace SnakeLibrary
 {
     public class Cell
     {
@@ -24,8 +18,7 @@ namespace SnakeLibrary
 
         public override bool Equals(object obj)
         {
-            var cell = obj as Cell;
-            if(cell != null)
+            if (obj is Cell cell)
             {
                 return cell.X == X && cell.Y == Y;
             }
@@ -35,7 +28,11 @@ namespace SnakeLibrary
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            int hashCode = 1861411795;
+            hashCode = hashCode * -1521134295 + X.GetHashCode();
+            hashCode = hashCode * -1521134295 + Y.GetHashCode();
+
+            return hashCode;
         }
     }
 }

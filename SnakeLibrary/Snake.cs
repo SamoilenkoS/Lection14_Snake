@@ -5,6 +5,8 @@ namespace SnakeLibrary
 {
     public class Snake
     {
+        private bool _directionChanged;
+
         public LinkedList<Cell> BodyCells { get; private set; }
         public MoveDirection MoveDirection { get; private set; }
 
@@ -25,12 +27,14 @@ namespace SnakeLibrary
 
         public MoveDirection ChangeDirection(MoveDirection newMoveDirection)
         {
-            if ((MoveDirection == MoveDirection.Up && newMoveDirection != MoveDirection.Down) ||
-                (MoveDirection == MoveDirection.Down && newMoveDirection != MoveDirection.Up) ||
-                (MoveDirection == MoveDirection.Left && newMoveDirection != MoveDirection.Right) ||
-                (MoveDirection == MoveDirection.Right && newMoveDirection != MoveDirection.Left))
+            if (!_directionChanged)
             {
-                MoveDirection = newMoveDirection;
+                if (MoveDirection != newMoveDirection &&
+                    !IsReverseDirections(MoveDirection, newMoveDirection))
+                {
+                    MoveDirection = newMoveDirection;
+                    _directionChanged = true;
+                }
             }
 
             return MoveDirection;
@@ -38,39 +42,32 @@ namespace SnakeLibrary
 
         public void Move()
         {
+            _directionChanged = false;
             var head = BodyCells.First;
             var oldCords = new Cell(head.Value);
-            head.Value = GetNextHeadPosition();
+            head.Value = GetNextHeadPosition();//head move
 
-            head = head.Next;
-            while (head != null)
-            {
-                var tempCords = new Cell(head.Value);
-                head.Value = oldCords;
-                oldCords = tempCords;
-                head = head.Next;
-            }
+            MoveBody(head, oldCords);
         }
 
         public Cell GetNextHeadPosition()
         {
             int xIncrement = 0;
             int yIncrement = 0;
-            if (MoveDirection == MoveDirection.Right)
+            switch (MoveDirection)
             {
-                xIncrement = 1;
-            }
-            else if (MoveDirection == MoveDirection.Left)
-            {
-                xIncrement = -1;
-            }
-            else if (MoveDirection == MoveDirection.Up)
-            {
-                yIncrement = -1;
-            }
-            else
-            {
-                yIncrement = 1;
+                case MoveDirection.Up:
+                    yIncrement = -1;
+                    break;
+                case MoveDirection.Down:
+                    yIncrement = 1;
+                    break;
+                case MoveDirection.Left:
+                    xIncrement = -1;
+                    break;
+                case MoveDirection.Right:
+                    xIncrement = 1;
+                    break;
             }
 
             return new Cell
@@ -94,18 +91,37 @@ namespace SnakeLibrary
                 return false;
             }
 
-            return
-                !BodyCells
+            var selfCollision = BodyCells
                 .Skip(1)
                 .Any(bodyPart =>
                     bodyPart.Equals(headCell));
+
+            return !selfCollision;
         }
 
-        public int EatApple(Cell cell)
+        public void EatApple(Cell cell)
         {
             BodyCells.AddFirst(new Cell(cell));
+        }
 
-            return BodyCells.Count;
+        private bool IsReverseDirections(MoveDirection a, MoveDirection b)
+        {
+            return (a == MoveDirection.Up && b == MoveDirection.Down) ||
+                    (a == MoveDirection.Down && b == MoveDirection.Up) ||
+                    (a == MoveDirection.Left && b == MoveDirection.Right) ||
+                    (a == MoveDirection.Right && b == MoveDirection.Left);
+        }
+
+        private void MoveBody(LinkedListNode<Cell> head, Cell oldCords)
+        {
+            head = head.Next;
+            while (head != null)
+            {
+                var tempCords = new Cell(head.Value);
+                head.Value = oldCords;
+                oldCords = tempCords;
+                head = head.Next;
+            }
         }
     }
 }

@@ -1,69 +1,37 @@
 ﻿using SnakeLibrary;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Game
 {
     public partial class MainForm : Form
     {
-        SnakeGameGrid snakeGameGrid;
+        private readonly SnakeGameGrid _snakeGameGrid;
 
         public MainForm()
         {
             InitializeComponent();
-            snakeGameGrid = SnakeGameGrid.Initialize(10, SnakeIsDead);
+            _snakeGameGrid = SnakeGameGrid.Initialize(8, SnakeIsDead);
+            _snakeGameGrid.ScoreChanged += SnakeGameGrid_ScoreChanged;
+        }
+
+        private void SnakeGameGrid_ScoreChanged(int score)
+        {
+            labelScore.Text = $"Score: {score}";
         }
 
         private void SnakeIsDead()
         {
+            timerSnakeMove.Enabled = false;
             MessageBox.Show("Snake is dead!");
-            //TODO add restart!
+            _snakeGameGrid.Restart();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            snakeGameGrid.Move();
-            Refresh();
-        }
-
-        private void buttonChangeDirection_Click(object sender, EventArgs e)
-        {
-            MoveDirection moveDirection;
-            switch (comboBoxDirections.SelectedItem)
-            {
-                case "Up":
-                    moveDirection = MoveDirection.Up;
-                    break;
-                case "Down":
-                    moveDirection = MoveDirection.Down;
-                    break;
-                case "Left":
-                    moveDirection = MoveDirection.Left;
-                    break;
-                default:
-                    moveDirection = MoveDirection.Right;
-                    break;
-            }
-
-            snakeGameGrid.Snake.ChangeDirection(moveDirection);
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            comboBoxDirections.SelectedIndex = 3;
-        }
-
-        private void pictureBoxSnakePictureBox_Paint(object sender, PaintEventArgs e)
+        private void PictureBoxSnakePictureBox_Paint(object sender, PaintEventArgs e)
         {
             var graphics = e.Graphics;
-            int size = 10;
+            int size = _snakeGameGrid.FieldSize;
 
             int width = (sender as Control).Width;
             int height = (sender as Control).Height;
@@ -84,20 +52,54 @@ namespace Game
                     j * elWidth,
                     elHeight * size);
             }
-            var snakePart = snakeGameGrid.Snake.BodyCells.First;
-            while (snakePart != null)
+            var cells = _snakeGameGrid.SnakeCells;
+            foreach (var snakePart in cells)
             {
                 graphics.FillRectangle(Brushes.Green,
-                    snakePart.Value.X * elWidth,
-                    snakePart.Value.Y * elHeight,
-                    elWidth, elHeight);
-                snakePart = snakePart.Next;
+                  snakePart.X * elWidth,
+                  snakePart.Y * elHeight,
+                  elWidth, elHeight);
             }
 
             graphics.FillRectangle(Brushes.Red,
-                snakeGameGrid.Apple.X * elWidth,
-                snakeGameGrid.Apple.Y * elHeight,
+                _snakeGameGrid.Apple.X * elWidth,
+                _snakeGameGrid.Apple.Y * elHeight,
                 elWidth, elHeight);
+        }
+
+        private void TimerSnakeMove_Tick(object sender, EventArgs e)
+        {
+            _snakeGameGrid.Move();
+            Refresh();
+        }
+
+        private void MainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            MoveDirection? moveDirection = null;
+
+            switch (e.KeyValue)
+            {
+                case (char)Keys.Space:
+                    timerSnakeMove.Enabled = true;
+                    break;
+                case (char)Keys.W:
+                    moveDirection = MoveDirection.Up;
+                    break;
+                case (char)Keys.A:
+                    moveDirection = MoveDirection.Left;
+                    break;
+                case (char)Keys.S:
+                    moveDirection = MoveDirection.Down;
+                    break;
+                case (char)Keys.D:
+                    moveDirection = MoveDirection.Right;
+                    break;
+            }
+
+            if(moveDirection != null)
+            {
+                _snakeGameGrid.ChangeDirection(moveDirection.Value);
+            }
         }
     }
 }
