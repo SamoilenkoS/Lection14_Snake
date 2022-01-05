@@ -33,6 +33,8 @@ namespace Game
             this.pictureBoxSnakePictureBox = new System.Windows.Forms.PictureBox();
             this.timerSnakeMove = new System.Windows.Forms.Timer(this.components);
             this.labelScore = new System.Windows.Forms.Label();
+            this.buttonHighScores = new System.Windows.Forms.Button();
+            this.buttonStart = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSnakePictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -59,16 +61,39 @@ namespace Game
             this.labelScore.TabIndex = 6;
             this.labelScore.Text = "Score: 0";
             // 
+            // buttonHighScores
+            // 
+            this.buttonHighScores.Location = new System.Drawing.Point(569, 44);
+            this.buttonHighScores.Name = "buttonHighScores";
+            this.buttonHighScores.Size = new System.Drawing.Size(115, 53);
+            this.buttonHighScores.TabIndex = 7;
+            this.buttonHighScores.Text = "High scores";
+            this.buttonHighScores.UseVisualStyleBackColor = true;
+            this.buttonHighScores.Click += new System.EventHandler(this.buttonHighScores_Click);
+            // 
+            // buttonStart
+            // 
+            this.buttonStart.Location = new System.Drawing.Point(569, 104);
+            this.buttonStart.Name = "buttonStart";
+            this.buttonStart.Size = new System.Drawing.Size(113, 44);
+            this.buttonStart.TabIndex = 8;
+            this.buttonStart.Text = "Start";
+            this.buttonStart.UseVisualStyleBackColor = true;
+            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(694, 450);
+            this.Controls.Add(this.buttonStart);
+            this.Controls.Add(this.buttonHighScores);
             this.Controls.Add(this.labelScore);
             this.Controls.Add(this.pictureBoxSnakePictureBox);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Snake v.0.0.1";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSnakePictureBox)).EndInit();
             this.ResumeLayout(false);
@@ -80,6 +105,8 @@ namespace Game
         private System.Windows.Forms.PictureBox pictureBoxSnakePictureBox;
         private System.Windows.Forms.Timer timerSnakeMove;
         private System.Windows.Forms.Label labelScore;
+        private System.Windows.Forms.Button buttonHighScores;
+        private System.Windows.Forms.Button buttonStart;
     }
 }
 

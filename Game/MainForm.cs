@@ -1,6 +1,8 @@
 ﻿using SnakeLibrary;
 using System;
 using System.Drawing;
+using System.IO;
+using System.Text.Json;
 using System.Windows.Forms;
 
 namespace Game
@@ -25,6 +27,17 @@ namespace Game
         {
             timerSnakeMove.Enabled = false;
             MessageBox.Show("Snake is dead!");
+            if (HighScoresHelper.IsHighScore(_snakeGameGrid.Score))
+            {
+                Hide();
+                HighScoreForm highScoreForm = new HighScoreForm(_snakeGameGrid.Score);
+                highScoreForm.ShowDialog();
+
+                Show();
+                //show message and ask name
+                //write name to records
+            }
+
             _snakeGameGrid.Restart();
         }
 
@@ -79,9 +92,6 @@ namespace Game
 
             switch (e.KeyValue)
             {
-                case (char)Keys.Space:
-                    timerSnakeMove.Enabled = true;
-                    break;
                 case (char)Keys.W:
                     moveDirection = MoveDirection.Up;
                     break;
@@ -100,6 +110,26 @@ namespace Game
             {
                 _snakeGameGrid.ChangeDirection(moveDirection.Value);
             }
+        }
+
+        private void buttonHighScores_Click(object sender, EventArgs e)
+        {
+            Hide();
+
+            HighScores highScores = new HighScores();
+            highScores.ShowDialog();
+
+            Show();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            pictureBoxSnakePictureBox.Focus();
+        }
+
+        private void buttonStart_Click(object sender, EventArgs e)
+        {
+            timerSnakeMove.Enabled = true;
         }
     }
 }
