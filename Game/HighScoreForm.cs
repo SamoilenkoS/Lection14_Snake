@@ -32,6 +32,7 @@ namespace Game
                 };
 
                 HighScoresHelper.SaveHighScore(highScore);
+                Close();
             }
         }
     }

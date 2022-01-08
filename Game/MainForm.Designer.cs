@@ -35,7 +35,9 @@ namespace Game
             this.labelScore = new System.Windows.Forms.Label();
             this.buttonHighScores = new System.Windows.Forms.Button();
             this.buttonStart = new System.Windows.Forms.Button();
+            this.groupBoxControls = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSnakePictureBox)).BeginInit();
+            this.groupBoxControls.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBoxSnakePictureBox
@@ -63,7 +65,7 @@ namespace Game
             // 
             // buttonHighScores
             // 
-            this.buttonHighScores.Location = new System.Drawing.Point(569, 44);
+            this.buttonHighScores.Location = new System.Drawing.Point(6, 30);
             this.buttonHighScores.Name = "buttonHighScores";
             this.buttonHighScores.Size = new System.Drawing.Size(115, 53);
             this.buttonHighScores.TabIndex = 7;
@@ -73,7 +75,7 @@ namespace Game
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(569, 104);
+            this.buttonStart.Location = new System.Drawing.Point(6, 90);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(113, 44);
             this.buttonStart.TabIndex = 8;
@@ -81,13 +83,23 @@ namespace Game
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
+            // groupBoxControls
+            // 
+            this.groupBoxControls.Controls.Add(this.buttonHighScores);
+            this.groupBoxControls.Controls.Add(this.buttonStart);
+            this.groupBoxControls.Location = new System.Drawing.Point(569, 44);
+            this.groupBoxControls.Name = "groupBoxControls";
+            this.groupBoxControls.Size = new System.Drawing.Size(129, 143);
+            this.groupBoxControls.TabIndex = 9;
+            this.groupBoxControls.TabStop = false;
+            this.groupBoxControls.Text = "Controls";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(694, 450);
-            this.Controls.Add(this.buttonStart);
-            this.Controls.Add(this.buttonHighScores);
+            this.ClientSize = new System.Drawing.Size(712, 450);
+            this.Controls.Add(this.groupBoxControls);
             this.Controls.Add(this.labelScore);
             this.Controls.Add(this.pictureBoxSnakePictureBox);
             this.Name = "MainForm";
@@ -96,6 +108,7 @@ namespace Game
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSnakePictureBox)).EndInit();
+            this.groupBoxControls.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -107,6 +120,7 @@ namespace Game
         private System.Windows.Forms.Label labelScore;
         private System.Windows.Forms.Button buttonHighScores;
         private System.Windows.Forms.Button buttonStart;
+        private System.Windows.Forms.GroupBox groupBoxControls;
     }
 }
 

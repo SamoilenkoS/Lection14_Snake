@@ -54,7 +54,7 @@ namespace SnakeLibrary
             scores.Add(highScore);
 
             SaveHighScores(scores
-                .OrderBy(x => x.Score)
+                .OrderByDescending(x => x.Score)
                 .Take(RecordsCount));
         }
 

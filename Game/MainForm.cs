@@ -39,6 +39,7 @@ namespace Game
             }
 
             _snakeGameGrid.Restart();
+            groupBoxControls.Enabled = true;
         }
 
         private void PictureBoxSnakePictureBox_Paint(object sender, PaintEventArgs e)
@@ -130,6 +131,7 @@ namespace Game
         private void buttonStart_Click(object sender, EventArgs e)
         {
             timerSnakeMove.Enabled = true;
+            groupBoxControls.Enabled = false;
         }
     }
 }

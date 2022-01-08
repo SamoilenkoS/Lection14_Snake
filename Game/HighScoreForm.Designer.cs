@@ -73,6 +73,7 @@ namespace Game
             this.Controls.Add(this.buttonConfirm);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "HighScoreForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "You\'re a winner!";
             this.ResumeLayout(false);
             this.PerformLayout();
