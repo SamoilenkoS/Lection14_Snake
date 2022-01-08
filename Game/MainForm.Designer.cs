@@ -68,7 +68,7 @@ namespace Game
             this.buttonHighScores.Location = new System.Drawing.Point(6, 30);
             this.buttonHighScores.Name = "buttonHighScores";
             this.buttonHighScores.Size = new System.Drawing.Size(115, 53);
-            this.buttonHighScores.TabIndex = 7;
+            this.buttonHighScores.TabIndex = 8;
             this.buttonHighScores.Text = "High scores";
             this.buttonHighScores.UseVisualStyleBackColor = true;
             this.buttonHighScores.Click += new System.EventHandler(this.buttonHighScores_Click);
@@ -78,7 +78,7 @@ namespace Game
             this.buttonStart.Location = new System.Drawing.Point(6, 90);
             this.buttonStart.Name = "buttonStart";
             this.buttonStart.Size = new System.Drawing.Size(113, 44);
-            this.buttonStart.TabIndex = 8;
+            this.buttonStart.TabIndex = 7;
             this.buttonStart.Text = "Start";
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);

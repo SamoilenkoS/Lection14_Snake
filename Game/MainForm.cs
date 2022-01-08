@@ -34,12 +34,11 @@ namespace Game
                 highScoreForm.ShowDialog();
 
                 Show();
-                //show message and ask name
-                //write name to records
             }
 
             _snakeGameGrid.Restart();
             groupBoxControls.Enabled = true;
+            buttonStart.Focus();
         }
 
         private void PictureBoxSnakePictureBox_Paint(object sender, PaintEventArgs e)
