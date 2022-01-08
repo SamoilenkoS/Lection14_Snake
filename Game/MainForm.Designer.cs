@@ -48,6 +48,8 @@ namespace Game
             this.pictureBoxSnakePictureBox.TabIndex = 5;
             this.pictureBoxSnakePictureBox.TabStop = false;
             this.pictureBoxSnakePictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBoxSnakePictureBox_Paint);
+            this.pictureBoxSnakePictureBox.MouseEnter += new System.EventHandler(this.Control_MouseEnter);
+            this.pictureBoxSnakePictureBox.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // timerSnakeMove
             // 
@@ -72,6 +74,8 @@ namespace Game
             this.buttonHighScores.Text = "High scores";
             this.buttonHighScores.UseVisualStyleBackColor = true;
             this.buttonHighScores.Click += new System.EventHandler(this.buttonHighScores_Click);
+            this.buttonHighScores.MouseEnter += new System.EventHandler(this.Control_MouseEnter);
+            this.buttonHighScores.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // buttonStart
             // 
@@ -82,6 +86,8 @@ namespace Game
             this.buttonStart.Text = "Start";
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
+            this.buttonStart.MouseEnter += new System.EventHandler(this.Control_MouseEnter);
+            this.buttonStart.MouseLeave += new System.EventHandler(this.control_MouseLeave);
             // 
             // groupBoxControls
             // 

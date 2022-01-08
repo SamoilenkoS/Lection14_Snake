@@ -124,13 +124,25 @@ namespace Game
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            pictureBoxSnakePictureBox.Focus();
+           // pictureBoxSnakePictureBox.Focus();
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
             timerSnakeMove.Enabled = true;
             groupBoxControls.Enabled = false;
+        }
+
+        private void Control_MouseEnter(object sender, EventArgs e)
+        {
+            Control b = sender as Control;
+            b.BackColor = Color.Green;
+        }
+
+        private void control_MouseLeave(object sender, EventArgs e)
+        {
+            Control b = sender as Control;
+            b.BackColor = Color.FromArgb(255, 240, 240, 240);
         }
     }
 }
